@@ -8,6 +8,7 @@ permissions:
 jobs:
   measure-energy:
     runs-on: ubuntu-latest
+
     steps:
       - name: Checkout code
         uses: actions/checkout@v3
@@ -22,8 +23,13 @@ jobs:
 
       - name: Run script and capture emissions
         run: |
-          python script.py > output.txt
+          python your_script.py > output.txt
           grep "Emissions" output.txt | cut -d ":" -f2 | xargs > emissions_value.txt
+
+      - name: Read emission value
+        id: read_emission
+        run: |
+          echo "value=$(cat emissions_value.txt)" >> $GITHUB_OUTPUT
 
       - name: Comment PR with energy score
         uses: marocchino/sticky-pull-request-comment@v2
@@ -32,11 +38,3 @@ jobs:
             🟢 **Energy Score: A**
             Estimated Usage: `${{ steps.read_emission.outputs.value }}` kWh  
             Measured by: CodeCarbon
-        env:
-          EMISSION_VALUE: ${{ steps.read_emission.outputs.value }}
-        id: comment
-
-      - name: Read emission value
-        id: read_emission
-        run: |
-          echo "::set-output name=value::$(cat emissions_value.txt)"
