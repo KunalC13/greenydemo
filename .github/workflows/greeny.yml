@@ -22,7 +22,7 @@ jobs:
 
       - name: Run script and capture emissions
         run: |
-          python your_script.py > output.txt
+          python script.py > output.txt
           grep "Emissions" output.txt | cut -d ":" -f2 | xargs > emissions_value.txt
 
       - name: Comment PR with energy score
