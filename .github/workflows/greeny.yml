@@ -19,7 +19,7 @@ jobs:
 
       - name: Run script and capture emissions
         run: |
-          python your_script.py > output.txt
+          python script.py > output.txt
 
       - name: Extract energy and comment PR
         uses: marocchino/sticky-pull-request-comment@v2
